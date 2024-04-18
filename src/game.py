@@ -26,7 +26,6 @@ pygame.display.set_caption("Python game")
 SCREEN = pygame.display.set_mode((800, 600))
 CLOCK = pygame.time.Clock()
 
-game_active = False
 
 bucket = pygame.sprite.GroupSingle()
 bucket.add(Bucket())
@@ -36,22 +35,29 @@ obstacle_timer = pygame.USEREVENT + 1
 
 font = pygame.font.Font('fonts/Pixeltype.ttf', 50)
 
-# Intro
-bucket_image = pygame.image.load('graphics/bucket.png').convert_alpha()
-bucket_image = pygame.transform.rotozoom(bucket_image, 0, 2)
-bucket_image_rect = bucket_image.get_rect(center=(400, 260))
-eter_your_name = font.render('Enter your name', False, "White")
-eter_your_name_rect = eter_your_name.get_rect(center=(400, 130))
-input_box = InputBox(font, 370, 400, 140, 32)
-
-
+GAME_STATE = 0
 TIMERS = (1000, 1400)
 SPEED = 5
 SCORE = 0
 LIFE_COUNT = 3
 NAME = ""
 
-GAME_STATE = 0
+# Intro
+bucket_image = pygame.image.load('graphics/bucket.png').convert_alpha()
+bucket_image = pygame.transform.rotozoom(bucket_image, 0, 2)
+bucket_image_rect = bucket_image.get_rect(center=(400, 260))
+enter_your_name = font.render('Enter your name', False, "White")
+enter_your_name_rect = enter_your_name.get_rect(center=(400, 130))
+input_box = InputBox(font, 370, 400, 140, 32)
+
+# Pause
+pause = font.render("Pause", False, "White")
+pause_rect = pause.get_rect(center=(400, 200))
+
+# You lost
+you_lost = font.render("You lost", False, "White")
+you_lost_rect = you_lost.get_rect(center=(400, 200))
+
 
 pygame.time.set_timer(obstacle_timer, randint(TIMERS[0], TIMERS[1]))
 while True:
@@ -110,12 +116,22 @@ while True:
         input_box.update()
         input_box.draw(SCREEN)
         SCREEN.blit(bucket_image, bucket_image_rect)
-        SCREEN.blit(eter_your_name, eter_your_name_rect)
+        SCREEN.blit(enter_your_name, enter_your_name_rect)
 
     elif GAME_STATE == 2:
-        SCREEN.fill((255, 255, 255))
+        current_score = font.render(f"Your score: {SCORE}", False, "White")
+        current_score_rect = current_score.get_rect(center=(400, 250))
+
+        SCREEN.fill((94, 129, 162))
+        SCREEN.blit(pause, pause_rect)
+        SCREEN.blit(current_score, current_score_rect)
+
     elif GAME_STATE == 3:
-        SCREEN.fill((0, 0, 0))
+        current_score = font.render(f"Your score: {SCORE}", False, "White")
+        current_score_rect = current_score.get_rect(center=(400, 250))
+        SCREEN.fill((94, 129, 162))
+        SCREEN.blit(you_lost, you_lost_rect)
+        SCREEN.blit(current_score, current_score_rect)
 
     pygame.display.update()
     CLOCK.tick(60)
