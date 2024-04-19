@@ -20,7 +20,7 @@ class Game:
         self.obstacle_group = pygame.sprite.Group()
         self.obstacle_timer = pygame.USEREVENT + 1
         self.font = pygame.font.Font('fonts/Pixeltype.ttf', 50)
-        self.TIMERS = (1000, 1400)
+        self.TIMERS = (1000, 1200)
         self.SPEED = 5
         self.SCORE = 0
         self.LIFE_COUNT = 3
@@ -43,8 +43,6 @@ class Game:
                 if event.type == self.obstacle_timer:
                     self.obstacle_group.add(
                         Obstacle(self.SPEED, self.life_lost))
-                    pygame.time.set_timer(self.obstacle_timer, randint(
-                        self.TIMERS[0], self.TIMERS[1]))
             elif self.game_state == GameState.INTRO:
                 self.NAME = self.input_box.handle_event(event)
                 if self.NAME[1]:
@@ -56,6 +54,7 @@ class Game:
                         self.game_state = GameState.PLAYING
             elif self.game_state == GameState.GAME_OVER:
                 if event.type == pygame.KEYDOWN:
+                    self.TIMERS = (1000, 1400)
                     self.reset_game()
 
     def draw_life(self, x, y):
@@ -85,8 +84,18 @@ class Game:
             self.TIMERS[0], self.TIMERS[1]))
 
     def is_collision(self):
-        if pygame.sprite.spritecollide(self.bucket.sprite, self.obstacle_group, True):
-            self.SCORE += 1
+        for obstacle in pygame.sprite.spritecollide(self.bucket.sprite, self.obstacle_group, True):
+            if obstacle.type == 1:
+                self.SCORE += 1
+            elif obstacle.type == 2:
+                self.life_lost()
+            else:
+                if self.LIFE_COUNT < 3:
+                    self.LIFE_COUNT += 1
+            if self.TIMERS[0] > 300 and self.TIMERS[1] > 400:
+                self.TIMERS = (self.TIMERS[0] - 50, self.TIMERS[1] - 50)
+            pygame.time.set_timer(self.obstacle_timer, randint(
+                self.TIMERS[0], self.TIMERS[1]))
 
     def life_lost(self):
         self.LIFE_COUNT -= 1
