@@ -9,15 +9,11 @@ class Obstacle(sprite.Sprite):
                          'graphics/mushroom_red.png', 'graphics/mushroom_purple.png']
         type = randint(1, 100)
 
-        # Type 1 -> common mushroom 45%
-        # Type 2 -> red mushroom 45%
-        # Type 3 -> purple mushroom 10% (healing)
-
         if type <= 65:
             self.type = 1
             self.image = image.load(
                 mushrooms_img[randint(0, 1)]).convert_alpha()
-        elif type <= 95:
+        elif type <= 97:
             self.type = 2
             self.image = image.load(mushrooms_img[2]).convert_alpha()
         else:
@@ -25,7 +21,7 @@ class Obstacle(sprite.Sprite):
             self.image = image.load(mushrooms_img[3]).convert_alpha()
 
         self.speed = speed
-        self.image = transform.rotozoom(self.image, 0, 0.5)
+        self.image = transform.rotozoom(self.image, 0, 0.7)
         self.rect = self.image.get_rect(
             center=(randint(10, 790), randint(-300, -20)))
         self.life_lost_func = life_lost_func
