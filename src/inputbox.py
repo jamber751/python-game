@@ -1,8 +1,6 @@
 from pygame import draw, Color, Rect, KEYDOWN, K_BACKSPACE, K_RETURN
 
-COLOR_INACTIVE = Color('black')
-COLOR_ACTIVE = Color('white')
-
+COLOR_ACTIVE = "#644d37"
 
 class InputBox:
     def __init__(self, font, x, y, w, h, text=''):
