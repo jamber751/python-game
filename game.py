@@ -24,7 +24,7 @@ class Game:
         self.SPEED = 5
         self.SCORE = 0
         self.LIFE_COUNT = 3
-        self.NAME = ""
+        self.NAME = ("", False)
         self.PRIMARY_COLOR = "#644d37"
         self.input_box = InputBox(self.font, 370, 220, 140, 32)
 
@@ -184,6 +184,10 @@ class Game:
             self.draw_life(650, 50)
         elif self.game_state == GameState.GAME_OVER:
             self.SCREEN.blit(self.background_image, self.background_image_rect)
+            name = self.font.render(f"{self.NAME[0]}", False, self.PRIMARY_COLOR)
+            name = pygame.transform.rotozoom(name, 0, 0.4)
+            name_rect = name.get_rect(center=(710, 465))
+            self.SCREEN.blit(name, name_rect)
             current_score = self.font.render(
                 f"Your score: {self.SCORE}", False, self.PRIMARY_COLOR)
             current_score_rect = current_score.get_rect(center=(400, 190))
