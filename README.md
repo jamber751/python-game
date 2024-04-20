@@ -42,4 +42,3 @@ python game.py
 		</tr>
 	</table>
 </div>
-```
