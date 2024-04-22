@@ -184,7 +184,8 @@ class Game:
             self.draw_life(650, 50)
         elif self.game_state == GameState.GAME_OVER:
             self.SCREEN.blit(self.background_image, self.background_image_rect)
-            name = self.font.render(f"{self.NAME[0]}", False, self.PRIMARY_COLOR)
+            name = self.font.render(
+                f"{self.NAME[0]}", False, self.PRIMARY_COLOR)
             name = pygame.transform.rotozoom(name, 0, 0.4)
             name_rect = name.get_rect(center=(710, 465))
             self.SCREEN.blit(name, name_rect)
